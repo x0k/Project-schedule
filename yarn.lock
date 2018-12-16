@@ -3140,6 +3140,11 @@ eslint-config-react-app@^3.0.5:
   dependencies:
     confusing-browser-globals "^1.0.5"
 
+eslint-config-x0k@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-x0k/-/eslint-config-x0k-1.0.0.tgz#d7d177bc8d9a07567cdfe1e528fc1d0799a1eb7b"
+  integrity sha512-OvAQlNH/nEn57WLe7peu/BdUmL6LOEOsxqvIVc/f44Wxrpccr3rYiDObhgFCfKm2FjKeL7dvQqzjk4N1jDps7g==
+
 eslint-import-resolver-node@^0.3.1:
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/eslint-import-resolver-node/-/eslint-import-resolver-node-0.3.2.tgz#58f15fb839b8d0576ca980413476aab2472db66a"
@@ -3547,6 +3552,11 @@ fast-deep-equal@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-2.0.1.tgz#7b05218ddf9667bf7f370bf7fdb2cb15fdd0aa49"
   integrity sha1-ewUhjd+WZ79/Nwv3/bLLFf3Qqkk=
+
+fast-equals@^1.6.1:
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/fast-equals/-/fast-equals-1.6.1.tgz#66cc5a0922ea747599f41aedf44a76ec2908adc0"
+  integrity sha512-xlmDRa03F8QpqTpfeH1l/exTKMg5zhyDh34bfc3pBR/JLQkaIzayXC7hvsXsyv/Och1At//+ubJp+Jy1nfmMvA==
 
 fast-glob@^2.0.2:
   version "2.2.3"
@@ -7705,7 +7715,7 @@ react-dev-utils@^6.1.1:
     strip-ansi "4.0.0"
     text-table "0.2.0"
 
-react-dom@16.6.3:
+react-dom@^16.6.3:
   version "16.6.3"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.6.3.tgz#8fa7ba6883c85211b8da2d0efeffc9d3825cccc0"
   integrity sha512-8ugJWRCWLGXy+7PmNh8WJz3g1TaTUt1XyoIcFN+x0Zbkoz+KKdUyx1AQLYJdbFXjuF41Nmjn5+j//rxvhFjgSQ==
@@ -7775,7 +7785,7 @@ react-scripts@2.1.1:
   optionalDependencies:
     fsevents "1.2.4"
 
-react@16.6.3:
+react@^16.6.3:
   version "16.6.3"
   resolved "https://registry.yarnpkg.com/react/-/react-16.6.3.tgz#25d77c91911d6bbdd23db41e70fb094cc1e0871c"
   integrity sha512-zCvmH2vbEolgKxtqXL2wmGCUxUyNheYn/C+PD1YAjfxHC54+MhdruyhO7QieQrYsYeTxrn93PM2y0jRH1zEExw==
@@ -8229,6 +8239,12 @@ saxes@^3.1.3:
   integrity sha512-Nc5DXc5A+m3rUDtkS+vHlBWKT7mCKjJPyia7f8YMW773hsXVv2wEHQZGE0zs4+5PLwz9U5Sbl/94Cnd9vHV7Bg==
   dependencies:
     xmlchars "^1.3.1"
+
+"schedule-generator@https://github.com/x0k/Schedule-generator.git":
+  version "1.0.0"
+  resolved "https://github.com/x0k/Schedule-generator.git#f1dc083b2e915ec27875730fe4849ff4f4cc8bba"
+  dependencies:
+    fast-equals "^1.6.1"
 
 scheduler@^0.11.2:
   version "0.11.3"
