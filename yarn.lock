@@ -8909,7 +8909,7 @@ saxes@^3.1.4:
 
 "schedule-generator@https://github.com/x0k/Schedule-generator.git":
   version "1.0.1"
-  resolved "https://github.com/x0k/Schedule-generator.git#84158258f52f72909dff05c28322029a1cf382bc"
+  resolved "https://github.com/x0k/Schedule-generator.git#486744199f21030d59771a185736ad5bbbf6d342"
   dependencies:
     fast-equals "^1.6.1"
 

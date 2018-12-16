@@ -96,7 +96,7 @@ export default {
     {
       name: 'numerator',
       require: ['weeks'],
-      flow: [ 'odd', [ 'weeks' ] ]
+      flow: [ 'even', [ 'weeks' ] ]
     },
     {
       name: 'denumerator',

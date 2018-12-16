@@ -22,7 +22,7 @@ export default class App extends Component {
   constructor (props) {
     super(props);
     this.state = { selectedIndex: 1, groups: [], open: true, schedules: [
-      { name: '147a schedule', data: schedule, from: new Date(), to: new Date(2018, 11, 30) },
+      { name: '147a schedule', data: schedule, from: new Date(2018, 11, 3), to: new Date(2018, 11, 30) },
       { name: '147 Exams', data: exams, from: new Date(2019, 0, 10), to: new Date(2019, 0, 20) },
     ] };
     this.onSelect(this.state.selectedIndex);
