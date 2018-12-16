@@ -1,6 +1,6 @@
 export default {
   name: '147a exams',
-  steps: 1800000,
+  step: 1800000,
   extractor: {
     name: 'extractor',
     require: [ 'type', 'teacher', 'subjects' ],

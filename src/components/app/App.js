@@ -22,7 +22,7 @@ export default class App extends Component {
   constructor (props) {
     super(props);
     this.state = { selectedIndex: 1, groups: [], open: true, schedules: [
-      { name: '147a schedule', data: schedule, from: new Date(2018, 8, 1), to: new Date(2018, 11, 30) },
+      { name: '147a schedule', data: schedule, from: new Date(), to: new Date(2018, 11, 30) },
       { name: '147 Exams', data: exams, from: new Date(2019, 0, 10), to: new Date(2019, 0, 20) },
     ] };
     this.onSelect(this.state.selectedIndex);
@@ -32,8 +32,8 @@ export default class App extends Component {
     let { data, from, to } = this.state.schedules[selectedIndex],
       gen = new Generator();
     gen.load(data)
-      .then(gen => gen.run(from, to))
-      .then(groups => this.setState({ groups }));
+      .then(event => gen.run(from, to))
+      .then(groups => this.setState({ groups, selectedIndex }));
   }
 
   scheduleDates (schedule) {
@@ -64,7 +64,7 @@ export default class App extends Component {
         <DrawerAppContent className='drawer-app-content'>
           <TopAppBar title={this.state.schedules[this.state.selectedIndex].name} />
           <TopAppBarFixedAdjust>
-            <Schedule groups={this.state.groups} />
+            <Schedule name={this.state.schedules[this.state.selectedIndex].name} groups={this.state.groups} step={this.state.schedules[this.state.selectedIndex].data.step} />
           </TopAppBarFixedAdjust>
         </DrawerAppContent>
       </div>
