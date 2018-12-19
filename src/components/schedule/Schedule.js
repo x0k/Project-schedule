@@ -1,14 +1,31 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import List, {ListItem, ListItemText, ListItemMeta, ListGroup, ListGroupSubheader} from '@material/react-list';
-import '@material/react-list/dist/list.css';
-
-import './Schedule.scss';
+import { withStyles } from '@material-ui/core/styles';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListSubheader from '@material-ui/core/ListSubheader';
 
 import { Grouper } from 'schedule-generator';
 
-export default class Schedule extends Component {
+const styles = theme => ({
+  root: {
+    width: '100%',
+    backgroundColor: theme.palette.background.paper,
+    position: 'relative',
+    overflow: 'auto',
+  },
+  listSection: {
+    backgroundColor: 'inherit',
+  },
+  ul: {
+    backgroundColor: 'inherit',
+    padding: 0,
+  },
+});
+
+class Schedule extends Component {
 
   constructor (props) {
     super(props);
@@ -16,34 +33,31 @@ export default class Schedule extends Component {
   }
 
   render () {
-    let groupBy = this.state.groupBy;
-    if (this.props.groups.length && this.props.name !== this.state.name) {
-      let { step, groups, name } = this.props;
+    let { groups, step, name, classes } = this.props,
+      groupBy = this.state.groupBy;
+    if (groups.length && name !== this.state.name) {
       Grouper.toList(step, groups, true)
         .then(list => Grouper.groupBy(groupBy, list))
         .then(groups => this.setState({ groups, name }));
     }
-    let items = [];
-    for (let group of this.state.groups) {
-      items.push(<ListGroupSubheader className='list__subheader'>{Grouper.partionToString(groupBy, new Date(group.start))}</ListGroupSubheader>);
-      items.push(
-        <List twoLine>
-          {group.items.map(el => (
-            <ListItem>
-              <ListItemText
-                primaryText={JSON.stringify(el.value)}
-                secondaryText={Grouper.partionToTimePeriod(el.start, el.length)}
-              />
-              <ListItemMeta meta='place' />
-            </ListItem>
-          ))}
-        </List>
-      );
-    }
     return (
-      <ListGroup>
-        {items}
-      </ListGroup>
+      <List className={classes.root} subheader={<li />}>
+        {this.state.groups.map((group, groupId) => (
+          <li key={`section-${groupId}`} className={classes.listSection}>
+            <ul className={classes.ul}>
+              <ListSubheader>{Grouper.partionToString(groupBy, new Date(group.start))}</ListSubheader>
+              {group.items.map((item, itemId) => (
+                <ListItem key={`item-${groupId}-${itemId}`}>
+                  <ListItemText
+                    primary={JSON.stringify(item.value)}
+                    secondary={Grouper.partionToTimePeriod(item.start, item.length)}
+                  />
+                </ListItem>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </List>
     );
   }
 
@@ -54,3 +68,5 @@ Schedule.propTypes = {
   step: PropTypes.number.isRequired,
   groups: PropTypes.array.isRequired
 };
+
+export default withStyles(styles)(Schedule);
