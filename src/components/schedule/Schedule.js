@@ -32,7 +32,7 @@ export default class Schedule extends Component {
             <ListItem>
               <ListItemText
                 primaryText={JSON.stringify(el.value)}
-                secondaryText={Grouper.partionToTimePeriod(el.point, el.length)}
+                secondaryText={Grouper.partionToTimePeriod(el.start, el.length)}
               />
               <ListItemMeta meta='place' />
             </ListItem>
