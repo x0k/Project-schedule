@@ -62,8 +62,8 @@ class App extends Component {
       groups: [],
       mobileOpen: false,
       schedules: [
-        { name: '147a schedule', data: schedule, from: new Date(2018, 11, 3), to: new Date(2018, 11, 30) },
-        { name: '147 Exams', data: exams, from: new Date(2019, 0, 10), to: new Date(2019, 0, 20) },
+        { name: '147a schedule', data: schedule, from: new Date(2018, 11, 3), to: new Date(2018, 11, 30), step: 600000 },
+        { name: '147 Exams', data: exams, from: new Date(2019, 0, 10), to: new Date(2019, 0, 20), step: 1800000 },
       ]
     };
     this.onSelect(this.state.selectedIndex);
@@ -119,7 +119,7 @@ class App extends Component {
             <IconButton
               color="inherit"
               aria-label="Open drawer"
-              onClick={this.handleDrawerToggle}
+              onClick={this.drawerToggle}
               className={classes.menuButton}
             >
               <MenuIcon />
@@ -137,7 +137,7 @@ class App extends Component {
               variant="temporary"
               anchor={theme.direction === 'rtl' ? 'right' : 'left'}
               open={this.state.mobileOpen}
-              onClose={this.handleDrawerToggle}
+              onClose={this.drawerToggle}
               classes={{
                 paper: classes.drawerPaper,
               }}
@@ -159,7 +159,7 @@ class App extends Component {
         </nav>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          <Schedule name={this.state.schedules[this.state.selectedIndex].name} groups={this.state.groups} step={this.state.schedules[this.state.selectedIndex].data.step} />
+          <Schedule name={this.state.schedules[this.state.selectedIndex].name} groups={this.state.groups} step={this.state.schedules[this.state.selectedIndex].step} />
         </main>
       </div>
     );
