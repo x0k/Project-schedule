@@ -49,7 +49,7 @@ class Schedule extends Component {
               {group.items.map((item, itemId) => (
                 <ListItem key={`item-${groupId}-${itemId}`}>
                   <ListItemText
-                    primary={JSON.stringify(item.value)}
+                    primary={item.value}
                     secondary={Grouper.partionToTimePeriod(item.start, item.length)}
                   />
                 </ListItem>

@@ -10,7 +10,7 @@ export default {
   },
   extractor: {
     require: [ 'type', 'teacher', 'subjects' ],
-    expression: [ 'and', 'every', [ 'get', 'type', 'get', 'teacher', 'get', 'subject' ], 'map', [ 'type', 'teacher', 'subject' ] ],
+    expression: [ 'and', 'every', [ 'get', 'type', 'get', 'teacher', 'get', 'subject' ], '+', '+', '+', '+', 'get', 'type', ', ', 'get', 'subject', ', ', 'get', 'teacher' ],
   },
   events: [
     // Teachers
