@@ -43,9 +43,9 @@ const drawerWidth = 240,
         display: 'none',
       },
     },
-    toolbar: {
+    toolbar: Object.assign(theme.mixins.toolbar, {
       marginLeft: 20,
-    },
+    }),
     drawerPaper: {
       width: drawerWidth,
     },
