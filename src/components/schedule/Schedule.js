@@ -8,6 +8,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 
 import { Grouper } from 'schedule-generator';
+import { Typography } from '@material-ui/core';
 
 const styles = theme => ({
   root: {
@@ -18,6 +19,9 @@ const styles = theme => ({
   },
   listSection: {
     backgroundColor: 'inherit',
+  },
+  day: {
+    margin: 20,
   },
   ul: {
     backgroundColor: 'inherit',
@@ -40,25 +44,23 @@ class Schedule extends Component {
         .then(list => Grouper.groupBy(groupBy, list))
         .then(groups => this.setState({ groups, name }));
     }
-    return (
-      <List className={classes.root} subheader={<li />}>
-        {this.state.groups.map((group, groupId) => (
+    return this.state.groups.map((group, groupId) => (
+      <div>
+        <Typography variant="h6" className={classes.day}>{Grouper.partionToString(groupBy, new Date(group.start))}</Typography>
+        <List className={classes.root} subheader={<li />}>
           <li key={`section-${groupId}`} className={classes.listSection}>
-            <ul className={classes.ul}>
-              <ListSubheader>{Grouper.partionToString(groupBy, new Date(group.start))}</ListSubheader>
-              {group.items.map((item, itemId) => (
+            {group.items.map((item, itemId) => (
+              <ul className={classes.ul}>
+                <ListSubheader>{Grouper.partionToTimePeriod(item.start, item.length)}</ListSubheader>
                 <ListItem key={`item-${groupId}-${itemId}`}>
-                  <ListItemText
-                    primary={item.value}
-                    secondary={Grouper.partionToTimePeriod(item.start, item.length)}
-                  />
+                  <ListItemText primary={item.value} />
                 </ListItem>
-              ))}
-            </ul>
+              </ul>
+            ))}
           </li>
-        ))}
-      </List>
-    );
+        </List>
+      </div>
+    ));
   }
 
 }

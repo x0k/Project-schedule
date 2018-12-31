@@ -43,7 +43,9 @@ const drawerWidth = 240,
         display: 'none',
       },
     },
-    toolbar: theme.mixins.toolbar,
+    toolbar: {
+      marginLeft: 20,
+    },
     drawerPaper: {
       width: drawerWidth,
     },
