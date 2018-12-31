@@ -43,11 +43,12 @@ const drawerWidth = 240,
         display: 'none',
       },
     },
-    toolbar: Object.assign(theme.mixins.toolbar, {
-      marginLeft: 20,
-    }),
+    toolbar: theme.mixins.toolbar,
     drawerPaper: {
       width: drawerWidth,
+    },
+    darawerHeader: {
+      margin: 20,
     },
     content: {
       flexGrow: 1,
@@ -93,9 +94,7 @@ class App extends Component {
 
     const drawer = (
       <div>
-        <div className={classes.toolbar}>
-          <h2>Schedules</h2>
-        </div>
+        <Typography className={classes.darawerHeader} variant="h5">Schedules</Typography>
         <List>
           {this.state.schedules.map((schedule, scheduleId) => (
             <MenuItem
