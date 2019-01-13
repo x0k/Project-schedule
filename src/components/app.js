@@ -14,10 +14,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
-import Schedule from '../schedule/Schedule';
+import Schedule from './schedule';
 
-import { Generator } from 'schedule-core';
-import exams from '../../assets/exams';
+import exams from '../assets/exams';
 
 const drawerWidth = 240,
   styles = theme => ({
@@ -57,26 +56,15 @@ const drawerWidth = 240,
 
 class App extends Component {
 
-  constructor (props) {
-    super(props);
-    this.state = {
-      selectedIndex: 0,
-      events: [],
-      mobileOpen: false,
-      schedules: [
-        { name: '147 Exams', data: exams, from: new Date(2019, 0, 10), to: new Date(2019, 0, 20), step: 1800000 }
-      ]
-    };
-    this.onSelect(this.state.selectedIndex);
+  state = {
+    selectedIndex: 0,
+    mobileOpen: false,
+    schedules: [
+      { name: '147 Exams', data: exams, from: new Date(2019, 0, 10), to: new Date(2019, 0, 20) }
+    ]
   }
 
-  onSelect = (selectedIndex) => {
-    let { data, from, to } = this.state.schedules[selectedIndex],
-      gen = new Generator();
-    gen.load(data)
-      .then(rule => gen.run(from, to))
-      .then(events => this.setState({ events, selectedIndex }));
-  }
+  onSelect = (selectedIndex) => this.setState({ selectedIndex });
 
   drawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
@@ -89,7 +77,7 @@ class App extends Component {
 
   render () {
     const { classes, theme } = this.props;
-    const { events, schedules, selectedIndex, mobileOpen } = this.state;
+    const { schedules, selectedIndex, mobileOpen } = this.state;
     const drawer = (
       <div>
         <Typography className={classes.darawerHeader} variant="h5">Schedules</Typography>
@@ -158,10 +146,7 @@ class App extends Component {
         </nav>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          <Schedule
-            name={schedules[selectedIndex].name}
-            events={events}
-            step={schedules[selectedIndex].step} />
+          <Schedule schedule={schedules[selectedIndex]} />
         </main>
       </div>
     );
