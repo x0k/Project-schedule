@@ -1,58 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import IconButton from '@material-ui/core/IconButton';
-import List from '@material-ui/core/List';
-import MenuItem from '@material-ui/core/MenuItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import MenuIcon from '@material-ui/icons/Menu';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
+import Bar from './bar';
+import Navigation from './navigation';
 import Schedule from './schedule';
 
 import exams from '../assets/exams';
 
-const drawerWidth = 240,
-  styles = theme => ({
-    root: {
-      display: 'flex',
-    },
-    drawer: {
-      [theme.breakpoints.up('sm')]: {
-        width: drawerWidth,
-        flexShrink: 0,
-      },
-    },
-    appBar: {
-      marginLeft: drawerWidth,
-      [theme.breakpoints.up('sm')]: {
-        width: `calc(100% - ${drawerWidth}px)`,
-      },
-    },
-    menuButton: {
-      marginRight: 20,
-      [theme.breakpoints.up('sm')]: {
-        display: 'none',
-      },
-    },
-    toolbar: theme.mixins.toolbar,
-    drawerPaper: {
-      width: drawerWidth,
-    },
-    darawerHeader: {
-      margin: 20,
-    },
-    content: {
-      flexGrow: 1,
-      padding: theme.spacing.unit * 3,
-    },
-  });
+const styles = theme => ({
+  root: {
+    display: 'flex',
+  },
+  toolbar: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing.unit * 3,
+  },
+});
 
 class App extends Component {
 
@@ -64,7 +31,7 @@ class App extends Component {
     ]
   }
 
-  onSelect = (selectedIndex) => this.setState({ selectedIndex });
+  onSelect = (selectedIndex) => () => this.setState({ selectedIndex });
 
   drawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
@@ -76,74 +43,22 @@ class App extends Component {
   }
 
   render () {
-    const { classes, theme } = this.props;
+    const { classes } = this.props;
     const { schedules, selectedIndex, mobileOpen } = this.state;
-    const drawer = (
-      <div>
-        <Typography className={classes.darawerHeader} variant="h5">Schedules</Typography>
-        <List>
-          {schedules.map((schedule, scheduleId) => (
-            <MenuItem
-              key={scheduleId}
-              selected={scheduleId === selectedIndex}
-              onClick={event => this.onSelect(scheduleId)}
-            >
-              <ListItemText
-                primary={schedule.name}
-                secondary={this.scheduleDates(schedule)}
-              />
-            </MenuItem>
-          ))}
-        </List>
-      </div>
-    );
-
     return (
       <div className={classes.root}>
         <CssBaseline />
-        <AppBar position="fixed" className={classes.appBar}>
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="Open drawer"
-              onClick={this.drawerToggle}
-              className={classes.menuButton}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" color="inherit" noWrap>
-              {schedules[selectedIndex].name}
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <nav className={classes.drawer}>
-          {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-          <Hidden smUp implementation="css">
-            <Drawer
-              container={this.props.container}
-              variant="temporary"
-              anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-              open={mobileOpen}
-              onClose={this.drawerToggle}
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-            >
-              {drawer}
-            </Drawer>
-          </Hidden>
-          <Hidden xsDown implementation="css">
-            <Drawer
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-              variant="permanent"
-              open
-            >
-              {drawer}
-            </Drawer>
-          </Hidden>
-        </nav>
+        <Bar
+          title={schedules[selectedIndex].name}
+          drawerHandler={this.drawerToggle}
+        />
+        <Navigation
+          open={mobileOpen}
+          schedules={schedules}
+          selected={selectedIndex}
+          onSelect={this.onSelect}
+          drawerHandler={this.drawerToggle}
+        />
         <main className={classes.content}>
           <div className={classes.toolbar} />
           <Schedule schedule={schedules[selectedIndex]} />
@@ -151,7 +66,6 @@ class App extends Component {
       </div>
     );
   }
-
 }
 
 App.propTypes = {

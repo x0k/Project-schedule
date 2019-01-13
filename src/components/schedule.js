@@ -1,32 +1,21 @@
 import React, { Component } from 'react';
 
-import { withStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
+import ControlPanel from './controlPanel';
+import Group from './group';
 
 import { Generator, Grouper } from 'schedule-core';
-import { Typography } from '@material-ui/core';
 
-const styles = theme => ({
-  root: {
-    width: '100%',
-    backgroundColor: theme.palette.background.paper, 
-    position: 'relative',
-    overflow: 'auto',
-  },
-  listSection: {
-    backgroundColor: 'inherit',
-  },
-  day: {
-    margin: 20,
-  },
-  ul: {
-    backgroundColor: 'inherit',
-    padding: 0,
-  },
-});
+
+const dateToString = date => {
+  const zb = val => val < 10 ? '0' + val : val;
+  return `${date.getFullYear()}-${zb(date.getMonth()+1)}-${zb(date.getDate())}`;
+};
+
+const stringToDate = str => {
+  const matches = str.match(/(\d+)-(\d+)-(\d+)/);
+  const zb = val => parseInt(val[0] === '0' ? val.slice(1) : val);
+  return new Date(matches[1], zb(matches[2]) - 1, zb(matches[3]));
+};
 
 class Schedule extends Component {
 
@@ -35,11 +24,7 @@ class Schedule extends Component {
     events: [],
     groups: [],
     from: new Date(),
-    to: (() => {
-      let d = new Date();
-      d.setDate(d.getDate() + 7);
-      return d;
-    })(),
+    to: new Date(),
     groupBy: 'day',
     status: 'none',
   }
@@ -52,14 +37,22 @@ class Schedule extends Component {
       const gen = new Generator();
       gen.load(data)
         .then(rule => gen.run(from, to))
-        .then(events => this.setState({ events, scheduleName: name, status: 'loading' }));
+        .then(events => this.setState({ events, scheduleName: name, status: 'loading', from, to }));
     }
   }
 
+  changeHandler = name => (event) => {
+    this.setState({ [name]: event.target.value, status: 'regroup' });
+  }
+
+  dateChangeHandler = name => (event) => {
+    this.setState({ [name]: stringToDate(event.target.value), status: 'regroup' });
+  }
+
   render () {
-    const { classes, schedule } = this.props;
+    const { schedule } = this.props;
     const { events, scheduleName, from, to, groups, groupBy, status } = this.state;
-    if (events.length && schedule.name === scheduleName && status === 'loading') {
+    if (events.length && schedule.name === scheduleName && (status === 'loading' || status === 'regroup')) {
       Grouper.toList({
         events,
         constraints: schedule.constraints,
@@ -69,27 +62,26 @@ class Schedule extends Component {
         .then(list => Grouper.groupBy(groupBy, list))
         .then(groups => this.setState({ groups, status: 'loaded' }));
     }
+    
     return(
-      <div>{groups.map((group, groupId) => (
-        <div key={groupId}>
-          <Typography variant="h6" className={classes.day}>{Grouper.partionToString(groupBy, new Date(group.start))}</Typography>
-          <List className={classes.root} subheader={<li />}>
-            <li key={`section-${groupId}`} className={classes.listSection}>
-              {group.items.map((item, itemId) => (
-                <ul className={classes.ul} key={itemId}>
-                  <ListSubheader>{Grouper.partionToTimePeriod(item.start, item.length)}</ListSubheader>
-                  <ListItem key={`item-${groupId}-${itemId}`}>
-                    <ListItemText primary={item.value} />
-                  </ListItem>
-                </ul>
-              ))}
-            </li>
-          </List>
-        </div>
-      ))}
+      <div>
+        <ControlPanel
+          from={dateToString(from)}
+          to={dateToString(to)}
+          groupBy={groupBy}
+          dateHandler={this.dateChangeHandler}
+          menuHandler={this.changeHandler}
+        />
+        {groups.map((group, groupId) => (
+          <Group
+            groupBy={groupBy}
+            group={group}
+            key={groupId}
+          />
+        ))}
       </div>);
   }
 
 }
 
-export default withStyles(styles)(Schedule);
+export default Schedule;
