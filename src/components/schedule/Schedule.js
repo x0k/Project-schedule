@@ -7,7 +7,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 
-import { Grouper } from 'schedule-generator';
+import { Grouper } from 'schedule-core';
 import { Typography } from '@material-ui/core';
 
 const styles = theme => ({
@@ -33,34 +33,39 @@ class Schedule extends Component {
 
   constructor (props) {
     super(props);
-    this.state = { groupBy: 'day', groups: [], name: '' };
+    this.state = { groupBy: 'day', renderEvents: props.events, scheduleName: '' };
   }
 
   render () {
-    let { groups, step, name, classes } = this.props,
-      groupBy = this.state.groupBy;
-    if (groups.length && name !== this.state.name) {
-      Grouper.toList(step, groups, true)
+    const { events, step, name, classes } = this.props;
+    const { renderEvents, groupBy, scheduleName } = this.state;
+    if (events.length && name !== scheduleName) {
+      Grouper.toList(step, events, true)
         .then(list => Grouper.groupBy(groupBy, list))
-        .then(groups => this.setState({ groups, name }));
+        .then(events => this.setState({ renderEvents: events, scheduleName: name }));
     }
-    return this.state.groups.map((group, groupId) => (
+
+    return (
       <div>
-        <Typography variant="h6" className={classes.day}>{Grouper.partionToString(groupBy, new Date(group.start))}</Typography>
-        <List className={classes.root} subheader={<li />}>
-          <li key={`section-${groupId}`} className={classes.listSection}>
-            {group.items.map((item, itemId) => (
-              <ul className={classes.ul}>
-                <ListSubheader>{Grouper.partionToTimePeriod(item.start, item.length)}</ListSubheader>
-                <ListItem key={`item-${groupId}-${itemId}`}>
-                  <ListItemText primary={item.value} />
-                </ListItem>
-              </ul>
-            ))}
-          </li>
-        </List>
+        {renderEvents.map((group, groupId) => (
+          <div key={groupId}>
+            <Typography variant="h6" className={classes.day}>{Grouper.partionToString(groupBy, new Date(group.start))}</Typography>
+            <List className={classes.root} subheader={<li />}>
+              <li key={`section-${groupId}`} className={classes.listSection}>
+                {group.items.map((item, itemId) => (
+                  <ul className={classes.ul} key={itemId}>
+                    <ListSubheader>{Grouper.partionToTimePeriod(item.start, item.length)}</ListSubheader>
+                    <ListItem key={`item-${groupId}-${itemId}`}>
+                      <ListItemText primary={item.value} />
+                    </ListItem>
+                  </ul>
+                ))}
+              </li>
+            </List>
+          </div>
+        ))}
       </div>
-    ));
+    );
   }
 
 }
@@ -68,7 +73,7 @@ class Schedule extends Component {
 Schedule.propTypes = {
   name: PropTypes.string.isRequired,
   step: PropTypes.number.isRequired,
-  groups: PropTypes.array.isRequired
+  events: PropTypes.array.isRequired
 };
 
 export default withStyles(styles)(Schedule);

@@ -8,11 +8,8 @@ export default {
       expression: [ 'in', 'fullDate', 2019, 0, 10, 'fullDate', 2019, 0, 20 ]
     },
   },
-  extractor: {
-    require: [ 'type', 'teacher', 'subjects' ],
-    expression: [ 'and', 'every', [ 'get', 'type', 'get', 'teacher', 'get', 'subject' ], '+', '+', '+', '+', 'get', 'type', ', ', 'get', 'subject', ', ', 'get', 'teacher' ],
-  },
-  events: [
+  extractor: 'extractor',
+  rules: [
     // Teachers
     {
       id: 'Babenko',
@@ -49,7 +46,7 @@ export default {
     {
       id: 'teacher',
       require: [ 'Babenko', 'Mironov' ],
-      expression: [ 'any', [  'get', 'Babenko', 'get', 'Mironov' ] ]
+      expression: [ 'any', [ 'get', 'Babenko', 'get', 'Mironov' ] ]
     },
     // Types
     {
@@ -95,6 +92,11 @@ export default {
       id: 'subject',
       require: [ 'Reengineering', 'KnowledgeEngineering', 'SystemDesign' ],
       expression: [ 'any', [ 'get', 'Reengineering', 'get', 'KnowledgeEngineering', 'get', 'SystemDesign' ] ]
+    },
+    {
+      id: 'extractor',
+      require: [ 'type', 'teacher', 'subjects' ],
+      expression: [ 'and', 'every', [ 'get', 'type', 'get', 'teacher', 'get', 'subject' ], '+', '+', '+', '+', 'get', 'type', ', ', 'get', 'subject', ', ', 'get', 'teacher' ],
     },
   ]
 };

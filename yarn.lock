@@ -8835,9 +8835,10 @@ saxes@^3.1.4:
   dependencies:
     xmlchars "^1.3.1"
 
-"schedule-generator@https://github.com/x0k/Schedule-generator.git":
-  version "1.0.1"
-  resolved "https://github.com/x0k/Schedule-generator.git#2542fb300a106832426e7067e6b5cc456ff9d2a9"
+schedule-core@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/schedule-core/-/schedule-core-1.1.0.tgz#ad237c7ae3b97e5a83cbe3aada94a6bd9b99f176"
+  integrity sha512-IANWhnluZbCXorewBN5LLQPLaENG0V2AbCjfUz/ooVQlD/CZJB2PZqcYmUSkApyEyxCvPXQICFU1O8Wl+ffr1g==
   dependencies:
     fast-equals "^1.6.1"
 

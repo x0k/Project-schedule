@@ -16,9 +16,8 @@ import { withStyles } from '@material-ui/core/styles';
 
 import Schedule from '../schedule/Schedule';
 
-import { Generator } from 'schedule-generator';
+import { Generator } from 'schedule-core';
 import exams from '../../assets/exams';
-import schedule from '../../assets/schedule';
 
 const drawerWidth = 240,
   styles = theme => ({
@@ -61,12 +60,11 @@ class App extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      selectedIndex: 1,
-      groups: [],
+      selectedIndex: 0,
+      events: [],
       mobileOpen: false,
       schedules: [
-        { name: '147a schedule', data: schedule, from: new Date(2018, 11, 3), to: new Date(2018, 11, 30), step: 600000 },
-        { name: '147 Exams', data: exams, from: new Date(2019, 0, 10), to: new Date(2019, 0, 20), step: 1800000 },
+        { name: '147 Exams', data: exams, from: new Date(2019, 0, 10), to: new Date(2019, 0, 20), step: 1800000 }
       ]
     };
     this.onSelect(this.state.selectedIndex);
@@ -76,8 +74,8 @@ class App extends Component {
     let { data, from, to } = this.state.schedules[selectedIndex],
       gen = new Generator();
     gen.load(data)
-      .then(event => gen.run(from, to))
-      .then(groups => this.setState({ groups, selectedIndex }));
+      .then(rule => gen.run(from, to))
+      .then(events => this.setState({ events, selectedIndex }));
   }
 
   drawerToggle = () => {
@@ -91,15 +89,15 @@ class App extends Component {
 
   render () {
     const { classes, theme } = this.props;
-
+    const { events, schedules, selectedIndex, mobileOpen } = this.state;
     const drawer = (
       <div>
         <Typography className={classes.darawerHeader} variant="h5">Schedules</Typography>
         <List>
-          {this.state.schedules.map((schedule, scheduleId) => (
+          {schedules.map((schedule, scheduleId) => (
             <MenuItem
               key={scheduleId}
-              selected={scheduleId === this.state.selectedIndex}
+              selected={scheduleId === selectedIndex}
               onClick={event => this.onSelect(scheduleId)}
             >
               <ListItemText
@@ -126,7 +124,7 @@ class App extends Component {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" color="inherit" noWrap>
-              {this.state.schedules[this.state.selectedIndex].name}
+              {schedules[selectedIndex].name}
             </Typography>
           </Toolbar>
         </AppBar>
@@ -137,7 +135,7 @@ class App extends Component {
               container={this.props.container}
               variant="temporary"
               anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-              open={this.state.mobileOpen}
+              open={mobileOpen}
               onClose={this.drawerToggle}
               classes={{
                 paper: classes.drawerPaper,
@@ -160,7 +158,10 @@ class App extends Component {
         </nav>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          <Schedule name={this.state.schedules[this.state.selectedIndex].name} groups={this.state.groups} step={this.state.schedules[this.state.selectedIndex].step} />
+          <Schedule
+            name={schedules[selectedIndex].name}
+            events={events}
+            step={schedules[selectedIndex].step} />
         </main>
       </div>
     );
