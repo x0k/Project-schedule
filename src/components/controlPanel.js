@@ -50,6 +50,7 @@ export default withStyles(styles)(function ({ classes, from, to, groupBy, dateHa
         >
           <MenuItem value={'day'}>Day</MenuItem>
           <MenuItem value={'week'}>Week</MenuItem>
+          <MenuItem value={'month'}>Month</MenuItem>
         </Select>
       </FormControl>
     </div>

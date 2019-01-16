@@ -8837,10 +8837,10 @@ saxes@^3.1.4:
   dependencies:
     xmlchars "^1.3.1"
 
-schedule-core@^1.1.0:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/schedule-core/-/schedule-core-1.1.1.tgz#29d143fd81c3858858522fdc04df88b77c3c01d8"
-  integrity sha512-96c6mrtEGs7zbEfKsR09tQsKGtX9esD9HDoFag/zdb1aFvPIk3gCq4rlY+4dQ6Q3PUyjBz7rRbTm4xEOGjHZPQ==
+schedule-core@^0.1.2:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/schedule-core/-/schedule-core-0.1.3.tgz#c810601dbf8008007f2f3742067ab623360b9061"
+  integrity sha512-trGj5ti+Y+MbXZYfbLl01AQOXA6QofFlT42pyS/oWaNu1ohj8egQnakORv9cSPYlYu0jjpdQEOcjI7s08ehCfQ==
   dependencies:
     fast-equals "^1.6.1"
 

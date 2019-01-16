@@ -28,12 +28,12 @@ const styles = theme => ({
 export default withStyles(styles)(function ({ classes, groupBy, group }) {
   return (
     <div>
-      <Typography variant="h6" className={classes.day}>{Grouper.partionToString(groupBy, new Date(group.start))}</Typography>
+      <Typography variant="h6" className={classes.day}>{Grouper.headerPartionToString(groupBy, new Date(group.start))}</Typography>
       <List className={classes.root} subheader={<li />}>
         <li className={classes.listSection}>
           {group.items.map((item, itemId) => (
             <ul className={classes.ul} key={itemId}>
-              <ListSubheader>{Grouper.partionToTimePeriod(item.start, item.length)}</ListSubheader>
+              <ListSubheader>{Grouper.periodToString(groupBy, item)}</ListSubheader>
               <ListItem key={`item-${itemId}`}>
                 <ListItemText primary={item.value} />
               </ListItem>
