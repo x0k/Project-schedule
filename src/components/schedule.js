@@ -26,33 +26,51 @@ class Schedule extends Component {
     from: new Date(),
     to: new Date(),
     groupBy: 'day',
-    status: 'none',
+    status: 'loading',
   }
 
-  componentWillMount () {
-    const { schedule } = this.props;
-    const { scheduleName } = this.state;
-    if (schedule && schedule.name !== scheduleName) {
-      const { name, data, from, to } = schedule;
-      const gen = new Generator();
-      gen.load(data)
-        .then(rule => gen.run(from, to))
-        .then(events => this.setState({ events, scheduleName: name, status: 'loading', from, to }));
-    }
-  }
-
-  changeHandler = name => (event) => {
+  changeHandler = (name) => (event) => {
     this.setState({ [name]: event.target.value, status: 'regroup' });
   }
 
-  dateChangeHandler = name => (event) => {
+  dateChangeHandler = (name) => (event) => {
     this.setState({ [name]: stringToDate(event.target.value), status: 'regroup' });
+  }
+
+  componentDidUpdate () {
+    const { schedule } = this.props;
+    const { scheduleName, status } = this.state;
+    switch (status) {
+    case 'none':
+    case 'loaded':
+      if (schedule && schedule.name !== scheduleName) {
+        this.setState({ status: 'loading', scheduleName: schedule.name });
+      }
+      break;
+    }
   }
 
   render () {
     const { schedule } = this.props;
-    const { events, scheduleName, from, to, groups, groupBy, status } = this.state;
-    if (events.length && schedule.name === scheduleName && (status === 'loading' || status === 'regroup')) {
+    const { events, from, to, groups, groupBy, status } = this.state;
+    switch (status) {
+    case 'loading': {
+      const { name, from, to } = schedule;
+      const fromDate = new Date(from);
+      const toDate = new Date(to);
+      const gen = new Generator();
+      gen.load(schedule)
+        .then(rule => gen.run(fromDate, toDate))
+        .then(events => this.setState({
+          events,
+          scheduleName: name,
+          status: 'regroup',
+          from: fromDate,
+          to: toDate
+        }));
+      break;
+    }
+    case 'regroup': {
       Grouper.toList({
         events,
         constraints: schedule.constraints,
@@ -61,8 +79,9 @@ class Schedule extends Component {
       })
         .then(list => Grouper.groupBy(groupBy, list))
         .then(groups => this.setState({ groups, status: 'loaded' }));
+      break;
     }
-    
+    }
     return(
       <div>
         <ControlPanel

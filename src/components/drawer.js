@@ -14,8 +14,10 @@ const styles = theme => ({
 });
 
 const scheduleDates = schedule => {
+  const from = new Date(schedule.from);
+  const to = new Date(schedule.to);
   let d2s = (date) => `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
-  return d2s(schedule.from) + ' - ' + d2s(schedule.to);
+  return d2s(from) + ' - ' + d2s(to);
 };
 
 export default withStyles(styles)(function ({ classes, schedules, selected, onSelect }) {

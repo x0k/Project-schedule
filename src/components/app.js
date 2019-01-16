@@ -27,7 +27,7 @@ class App extends Component {
     selectedIndex: 0,
     mobileOpen: false,
     schedules: [
-      { name: '147 Exams', data: exams, from: new Date(2019, 0, 10), to: new Date(2019, 0, 20) }
+      exams
     ]
   }
 

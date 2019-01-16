@@ -8,6 +8,8 @@ export default {
       expression: [ 'in', 'fullDate', 2019, 0, 10, 'fullDate', 2019, 0, 20 ]
     },
   },
+  from: 1547067600000,
+  to: 1547931600000,
   extractor: 'extractor',
   rules: [
     // Teachers
