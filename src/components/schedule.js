@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 import ControlPanel from './controlPanel';
 import Group from './group';
 
-import { Generator, Grouper } from 'schedule-core';
-
+import { Loader, Grouper } from 'schedule-core';
 
 const dateToString = date => {
   const zb = val => val < 10 ? '0' + val : val;
@@ -58,9 +57,10 @@ class Schedule extends Component {
       const { name, from, to } = schedule;
       const fromDate = new Date(from);
       const toDate = new Date(to);
-      const gen = new Generator();
-      gen.load(schedule)
-        .then(rule => gen.run(fromDate, toDate))
+      const loader = new Loader();
+      loader.load(schedule)
+        .then(gen => gen.run(fromDate, toDate))
+        .then(data => Grouper.createEvents(data))
         .then(events => this.setState({
           events,
           scheduleName: name,
