@@ -5,7 +5,7 @@ import Hidden from '@material-ui/core/Hidden';
 
 import { withStyles } from '@material-ui/core/styles';
 
-import DrawerContent from './drawer';
+import SchedulesList from '../containers/schedulesList';
 
 const drawerWidth = 240;
 const styles = theme => ({
@@ -26,7 +26,7 @@ const styles = theme => ({
   },
 });
 
-export default withStyles(styles, { withTheme: true })(function ({ classes, theme, open, schedules, selected, onSelect, drawerHandler }) {
+export default withStyles(styles, { withTheme: true })(function ({ classes, theme, open, drawerHandler }) {
   return (
     <nav className={classes.drawer}>
       <Hidden smUp implementation="css">
@@ -37,11 +37,7 @@ export default withStyles(styles, { withTheme: true })(function ({ classes, them
           onClose={drawerHandler}
           classes={{ paper: classes.drawerPaper }}
         >
-          <DrawerContent
-            schedules={schedules}
-            selected={selected}
-            onSelect={onSelect}
-          />
+          <SchedulesList />
         </Drawer>
       </Hidden>
       <Hidden xsDown implementation="css">
@@ -50,11 +46,7 @@ export default withStyles(styles, { withTheme: true })(function ({ classes, them
           variant="permanent"
           open
         >
-          <DrawerContent
-            schedules={schedules}
-            selected={selected}
-            onSelect={onSelect}
-          />
+          <SchedulesList />
         </Drawer>
       </Hidden>
     </nav>

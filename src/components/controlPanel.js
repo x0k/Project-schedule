@@ -6,6 +6,9 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+
+import { grouperPeriods } from '../scheduleActions';
+
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = {
@@ -22,7 +25,7 @@ const styles = {
   }
 };
 
-export default withStyles(styles)(function ({ classes, from, to, groupBy, dateHandler, menuHandler }) {
+export default withStyles(styles)(function ({ classes, id, from, to, groupBy, beginDateHandler, endDateHandler, menuHandler }) {
   return (
     <div className={classes.controlPanel}>
       <TextField
@@ -30,14 +33,14 @@ export default withStyles(styles)(function ({ classes, from, to, groupBy, dateHa
         type="date"
         value={from}
         className={classes.textField}
-        onChange={dateHandler('from')}
+        onChange={beginDateHandler(id)}
       />
       <TextField
         label="To"
         type="date"
         value={to}
         className={classes.textField}
-        onChange={dateHandler('to')}
+        onChange={endDateHandler(id)}
       />
       <FormControl className={classes.groupBy}>
         <InputLabel shrink htmlFor="group-by-select">
@@ -45,12 +48,12 @@ export default withStyles(styles)(function ({ classes, from, to, groupBy, dateHa
         </InputLabel>
         <Select
           value={groupBy}
-          onChange={menuHandler('groupBy')}
+          onChange={menuHandler(id)}
           input={<Input id="group-by-select" />}
         >
-          <MenuItem value={'day'}>Day</MenuItem>
-          <MenuItem value={'week'}>Week</MenuItem>
-          <MenuItem value={'month'}>Month</MenuItem>
+          {Object.keys(grouperPeriods).map(key => (
+            <MenuItem key={key} value={grouperPeriods[key]}>{key}</MenuItem>
+          ))}
         </Select>
       </FormControl>
     </div>

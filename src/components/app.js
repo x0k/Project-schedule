@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { withStyles } from '@material-ui/core/styles';
 
-import Bar from './bar';
-import Navigation from './navigation';
-import Schedule from './schedule';
-
-import exams from '../assets/exams';
+import Bar from '../containers/topBar';
+import Navigation from '../containers/leftBar';
+import Schedule from '../containers/scheduleContainer';
 
 const styles = theme => ({
   root: {
@@ -20,51 +18,18 @@ const styles = theme => ({
   },
 });
 
-class App extends Component {
-
-  state = {
-    selectedIndex: 0,
-    mobileOpen: false,
-    schedules: [
-      exams
-    ]
-  }
-
-  onSelect = (selectedIndex) => () => this.setState({ selectedIndex });
-
-  drawerToggle = () => {
-    this.setState(state => ({ mobileOpen: !state.mobileOpen }));
-  };
-
-  scheduleDates (schedule) {
-    let d2s = (date) => `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
-    return d2s(schedule.from) + ' - ' + d2s(schedule.to);
-  }
-
-  render () {
-    const { classes } = this.props;
-    const { schedules, selectedIndex, mobileOpen } = this.state;
-    return (
-      <div className={classes.root}>
-        <CssBaseline />
-        <Bar
-          title={schedules[selectedIndex].name}
-          drawerHandler={this.drawerToggle}
-        />
-        <Navigation
-          open={mobileOpen}
-          schedules={schedules}
-          selected={selectedIndex}
-          onSelect={this.onSelect}
-          drawerHandler={this.drawerToggle}
-        />
-        <main className={classes.content}>
-          <div className={classes.toolbar} />
-          <Schedule schedule={schedules[selectedIndex]} />
-        </main>
-      </div>
-    );
-  }
-}
-
-export default withStyles(styles, { withTheme: true })(App);
+export default withStyles(styles, { withTheme: true })(function ({ classes, selectedSchedule }) {
+  return (
+    <div className={classes.root}>
+      <CssBaseline />
+      <Bar />
+      <Navigation />
+      <main className={classes.content}>
+        <div className={classes.toolbar} />
+        {selectedSchedule >= 0 &&
+          <Schedule id={selectedSchedule} />
+        }
+      </main>
+    </div>
+  );
+});

@@ -7,11 +7,11 @@ import Typography from '@material-ui/core/Typography';
 
 import { withStyles } from '@material-ui/core/styles';
 
-const styles = theme => ({
+const styles = {
   darawerHeader: {
     margin: 20,
   },
-});
+};
 
 const scheduleDates = schedule => {
   const from = new Date(schedule.from);
