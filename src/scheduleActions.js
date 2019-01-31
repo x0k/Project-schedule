@@ -46,17 +46,16 @@ export function selectGrouperPeriod (index, period) {
   return { type: SELECT_GROUPER_PERIOD, index, period };
 }
 
-export function generateEvents (index, schedule, begin, end) {
+export function generateEvents (index, schedule) {
   return (dispatch) => {
     dispatch(changeScheduleStatus(index, scheduleStatus.LOADING));
     const loader = new Loader();
+    const begin = new Date(schedule.from);
+    const end = new Date(schedule.to);
     return loader.load(schedule)
       .then(gen => gen.run(begin, end))
       .then(data => Grouper.createEvents(data))
-      .then(events => {
-        dispatch(setScheduleEvents(index, events));
-        dispatch(changeScheduleStatus(index, scheduleStatus.REGROUP));
-      });
+      .then(events => dispatch(setScheduleEvents(index, events)));
   };
 }
 
@@ -65,9 +64,6 @@ export function groupEvents (index, groupBy, data) {
     dispatch(changeScheduleStatus(index, scheduleStatus.LOADING));
     return Grouper.toList(data)
       .then(list => Grouper.groupBy(groupBy, list))
-      .then(groups => {
-        dispatch(setScheduleGroups(index, groups));
-        dispatch(changeScheduleStatus(index, scheduleStatus.LOADED));
-      });
+      .then(groups => dispatch(setScheduleGroups(index, groups)));
   };
 }

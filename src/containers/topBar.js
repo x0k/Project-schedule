@@ -4,9 +4,10 @@ import { toggleDrawer } from '../appActions';
 
 import Bar from '../components/bar';
 
-const stateToProps = (state) => ({
-  title: state.selectedSchedule >= 0 ? state.schedules[state.selectedSchedule].name : 'Select schedule'
-});
+const stateToProps = (state) => {
+  const title = state.selectedSchedule >= 0 ? state.schedules[state.descriptions[state.selectedSchedule].schedule].name : 'Select schedule';
+  return { title };
+};
 
 const dispatchToProps = (dispatch) => ({
   drawerHandler: () => dispatch(toggleDrawer())

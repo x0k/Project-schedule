@@ -7,10 +7,14 @@ import {
 
 import Schedule from '../components/schedule';
 
-const stateToProps = (state) => ({ ...state.schedules[state.selectedSchedule] });
+const stateToProps = (state, { id }) => {
+  const description = state.descriptions[id];
+  const schedule = state.schedules[description.schedule];
+  return { description, schedule };
+};
 
 const dispatchToProps = (dispatch) => ({
-  generateEvents: (index, schedule, begin, end) => dispatch(generateEvents(index, schedule, begin, end)),
+  generateEvents: (index, schedule) => dispatch(generateEvents(index, schedule)),
   groupEvents: (index, groupBy, data) => dispatch(groupEvents(index, groupBy, data)),
 });
 

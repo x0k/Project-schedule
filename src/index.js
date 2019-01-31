@@ -6,16 +6,30 @@ import * as serviceWorker from './serviceWorker';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
+import { createLogger } from 'redux-logger';
+
+import { BrowserRouter, Route } from 'react-router-dom';
 
 import reducers from './reducers';
 
-let store = createStore(reducers, applyMiddleware(
-  thunkMiddleware
-));
+const loggerMiddleware = createLogger();
+
+let store = createStore(
+  reducers,
+  applyMiddleware(
+    thunkMiddleware,
+    loggerMiddleware
+  )
+);
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <BrowserRouter>
+      <div>
+        <Route exact path="/" component={App} />
+        <Route path="/(:schedule)" component={App} />
+      </div>
+    </BrowserRouter>
   </Provider>,
   document.getElementById('root')
 );

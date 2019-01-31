@@ -20,23 +20,26 @@ const scheduleDates = schedule => {
   return d2s(from) + ' - ' + d2s(to);
 };
 
-export default withStyles(styles)(function ({ classes, schedules, selected, onSelect }) {
+export default withStyles(styles)(function ({ classes, descriptions, schedules, selected, onSelect }) {
   return (
     <div>
       <Typography className={classes.darawerHeader} variant="h5">Schedules</Typography>
       <List>
-        {schedules.map((schedule, scheduleId) => (
-          <MenuItem
-            key={scheduleId}
-            selected={scheduleId === selected}
-            onClick={onSelect(scheduleId)}
-          >
-            <ListItemText
-              primary={schedule.name}
-              secondary={scheduleDates(schedule)}
-            />
-          </MenuItem>
-        ))}
+        {descriptions.map((description, scheduleId) => {
+          const schedule = schedules[description.schedule];
+          return (
+            <MenuItem
+              key={scheduleId}
+              selected={scheduleId === selected}
+              onClick={onSelect(scheduleId)}
+            >
+              <ListItemText
+                primary={schedule.name}
+                secondary={scheduleDates(schedule)}
+              />
+            </MenuItem>
+          );
+        })}
       </List>
     </div>
   );

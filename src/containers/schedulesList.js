@@ -6,6 +6,7 @@ import Drawer from '../components/drawer';
 
 const stateToProps = (state) => ({
   schedules: state.schedules,
+  descriptions: state.descriptions,
   selected: state.selectedSchedule
 });
 

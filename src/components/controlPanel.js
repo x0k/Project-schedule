@@ -25,7 +25,7 @@ const styles = {
   }
 };
 
-export default withStyles(styles)(function ({ classes, id, from, to, groupBy, beginDateHandler, endDateHandler, menuHandler }) {
+export default withStyles(styles)(function ({ classes, schedule, from, to, groupBy, beginDateHandler, endDateHandler, menuHandler }) {
   return (
     <div className={classes.controlPanel}>
       <TextField
@@ -33,14 +33,14 @@ export default withStyles(styles)(function ({ classes, id, from, to, groupBy, be
         type="date"
         value={from}
         className={classes.textField}
-        onChange={beginDateHandler(id)}
+        onChange={beginDateHandler(schedule)}
       />
       <TextField
         label="To"
         type="date"
         value={to}
         className={classes.textField}
-        onChange={endDateHandler(id)}
+        onChange={endDateHandler(schedule)}
       />
       <FormControl className={classes.groupBy}>
         <InputLabel shrink htmlFor="group-by-select">
@@ -48,7 +48,7 @@ export default withStyles(styles)(function ({ classes, id, from, to, groupBy, be
         </InputLabel>
         <Select
           value={groupBy}
-          onChange={menuHandler(id)}
+          onChange={menuHandler(schedule)}
           input={<Input id="group-by-select" />}
         >
           {Object.keys(grouperPeriods).map(key => (

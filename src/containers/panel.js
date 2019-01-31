@@ -37,12 +37,12 @@ const dispatchToProps = (dispatch) => {
   };
 };
 
-const stateToProps = (state) => {
-  const { beginDate, endDate, grouperPeriod } = state.schedules[state.selectedSchedule];
+const stateToProps = (state, { schedule }) => {
+  const { beginDate, endDate, grouperPeriod: groupBy } = state.descriptions[schedule];
   return {
     from: dateToString(beginDate),
     to: dateToString(endDate),
-    groupBy: grouperPeriod,
+    groupBy
   };
 };
 

@@ -5,16 +5,6 @@ import exams from './assets/exams';
 import * as Actions from './actionTypes';
 import { scheduleStatus, grouperPeriods } from './scheduleActions';
 
-const initialSchedule = {
-  ...exams,
-  status: scheduleStatus.NONE,
-  events: [],
-  groups: [],
-  beginDate: new Date(exams.from),
-  endDate: new Date(exams.to),
-  grouperPeriod: grouperPeriods.Day,
-};
-
 function drawerOpen (state = false, action) {
   switch (action.type) {
   case Actions.TOGGLE_DRAWER:
@@ -33,32 +23,46 @@ function selectedSchedule (state = -1, action) {
   }
 }
 
-const buildModifier = (state, action) => (field, newName) => state.map((schedule, index) =>
-  index === action.index ? { ...schedule, [newName || field]: action[field] }: schedule
-);
+function schedules (state = { exams }, action) {
+  return state;
+}
 
-function schedules (state = [ initialSchedule ], action) {
-  const mod = buildModifier(state, action);
+const initialSchedule = {
+  schedule: 'exams',
+  status: scheduleStatus.NONE,
+  events: [],
+  groups: [],
+  beginDate: new Date(exams.from),
+  endDate: new Date(exams.to),
+  grouperPeriod: grouperPeriods.Day,
+};
+
+function description (state, action) {
   switch (action.type) {
   case Actions.CHANGE_SCHEDULE_STATUS:
-    return mod('status');
+    return { ...state, status: action.status };
   case Actions.SET_SCHEDULE_EVENTS:
-    return mod('events');
+    return { ...state, events: action.events, status: scheduleStatus.REGROUP };
   case Actions.SET_SCHEDULE_GROUPS:
-    return mod('groups');
+    return { ...state, groups: action.groups, status: scheduleStatus.LOADED };
   case Actions.CHANGE_BEGIN_DATE:
-    return mod('date', 'beginDate');
+    return { ...state, beginDate: action.date };
   case Actions.CHANGE_END_DATE:
-    return mod('date', 'endDate');
+    return { ...state, endDate: action.date };
   case Actions.SELECT_GROUPER_PERIOD:
-    return mod('period', 'grouperPeriod');
+    return { ...state, grouperPeriod: action.period };
   default:
     return state;
   }
 }
 
+function descriptions (state = [ initialSchedule ], action) {
+  return state.map((item, id) => id === action.index ? description(item, action) : item);
+}
+
 export default combineReducers({
   drawerOpen,
   selectedSchedule,
-  schedules
+  schedules,
+  descriptions
 });
