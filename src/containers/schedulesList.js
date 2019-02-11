@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { selectSchedule } from '../appActions';
+import { selectSchedule } from '../actions';
 
 import Drawer from '../components/drawer';
 

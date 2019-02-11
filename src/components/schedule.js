@@ -5,20 +5,19 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import ControlPanel from '../containers/panel';
 import Group from './group';
 
-import { scheduleStatus } from '../scheduleActions';
+import { scheduleStatus } from '../actions';
 
 export default function ({ id, description, schedule, generateEvents, groupEvents }) {
   switch (description.status) {
-  case scheduleStatus.NONE: {
+  case scheduleStatus.none:
     generateEvents(id, schedule);
     break;
-  }
-  case scheduleStatus.REGROUP: {
+  case scheduleStatus.regroup: {
     const { events, grouperPeriod, beginDate: from, endDate: to } = description;
     groupEvents(id, grouperPeriod, { events, from, to });
     break;
   }
-  case scheduleStatus.LOADED:
+  case scheduleStatus.loaded:
     return(
       <div>
         <ControlPanel schedule={id} />

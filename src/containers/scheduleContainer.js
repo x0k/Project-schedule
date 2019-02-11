@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import {
   generateEvents,
   groupEvents,
-} from '../scheduleActions';
+} from '../actions';
 
 import Schedule from '../components/schedule';
 

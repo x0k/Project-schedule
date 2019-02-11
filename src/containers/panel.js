@@ -6,7 +6,7 @@ import {
   selectGrouperPeriod,
   changeScheduleStatus,
   scheduleStatus,
-} from '../scheduleActions';
+} from '../actions';
 
 import ControlPanel from '../components/controlPanel';
 
@@ -25,14 +25,14 @@ const dateToString = date => {
 const dispatchToProps = (dispatch) => {
   const dateHandler = (action) => (id) => (event) => {
     dispatch(action(id, stringToDate(event.target.value)));
-    dispatch(changeScheduleStatus(id, scheduleStatus.REGROUP));
+    dispatch(changeScheduleStatus(id, scheduleStatus.regroup));
   };
   return {
     beginDateHandler: dateHandler(changeBeginDate),
     endDateHandler: dateHandler(changeEndDate),
     menuHandler: (id) => (event) => {
       dispatch(selectGrouperPeriod(id, event.target.value));
-      dispatch(changeScheduleStatus(id, scheduleStatus.REGROUP));
+      dispatch(changeScheduleStatus(id, scheduleStatus.regroup));
     }
   };
 };

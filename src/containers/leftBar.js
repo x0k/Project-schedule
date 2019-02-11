@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { toggleDrawer } from '../appActions';
+import { toggleDrawer } from '../actions';
 
 import Navigation from '../components/navigation';
 
