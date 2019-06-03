@@ -3,18 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^3.7.0",
-    "@material-ui/icons": "^3.0.1",
+    "@material-ui/core": "~4.0.1",
+    "@material-ui/icons": "~4.0.1",
+    "connected-react-router": "^6.4.0",
+    "eslint": "^5.16.0",
+    "eventa": "https://github.com/x0k/eventa.git#1.0.1",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-redux": "^6.0.0",
-    "react-router-dom": "^4.3.1",
+    "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.1",
     "redux": "^4.0.1",
-    "redux-actions": "^2.6.4",
-    "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.3.0",
-    "schedule-core": "0.2.1"
+    "redux-logger": "^3.0.6"
   },
   "scripts": {
     "start": "react-scripts start",
