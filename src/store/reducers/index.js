@@ -1,6 +1,7 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from 'redux'
+import { connectRouter } from 'connected-react-router'
 
-import exams from '../assets/exams';
+import exams from '../assets/exams'
 
 import {
   TOGGLE_DRAWER,
@@ -80,9 +81,10 @@ function descriptions (state = [ initialSchedule ], action) {
   }
 }
 
-export default combineReducers({
+export default (history) => combineReducers({
   drawerOpen,
   selectedSchedule,
   schedules,
-  descriptions
+  descriptions,
+  router: connectRouter(history)
 });
