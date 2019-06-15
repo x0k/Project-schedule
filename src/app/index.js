@@ -1,28 +1,33 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import App from './containers/appContainer'
-import * as serviceWorker from './serviceWorker'
+import CssBaseline from '@material-ui/core/CssBaseline'
 
-import { Provider } from 'react-redux'
+import { makeStyles } from '@material-ui/core/styles'
 
-import { Route } from 'react-router-dom'
-import { ConnectedRouter } from 'connected-react-router'
+import Bar from './bar'
+import Menu from './menu'
 
-import configureStore, { history } from '../store'
+const useStyles = makeStyles(theme => ({
+  root: {
+    display: 'flex'
+  },
+  toolbar: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3)
+  }
+}))
 
-let store = configureStore({})
-
-ReactDOM.render(
-  <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <Route exact path="/" component={App} />
-      <Route path="/(:schedule)" component={App} />
-    </ConnectedRouter>
-  </Provider>,
-  document.getElementById('root')
-)
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister()
+export default function App ({ children }) {
+  const classes = useStyles()
+  return (
+    <div className={classes.root}>
+      <CssBaseline />
+      <Bar />
+      <Menu />
+      <main className={classes.content}>
+        <div className={classes.toolbar} />
+        {children}
+      </main>
+    </div>
+  )
+}
