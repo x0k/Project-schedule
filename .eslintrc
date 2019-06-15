@@ -1,6 +1,0 @@
-{
-  "extends": ["react-app", "eslint-config-x0k"],
-  "rules": {
-    "semi": ["error", "never"]
-  }
-}
