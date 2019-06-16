@@ -23,19 +23,36 @@ const useStyle = makeStyles(theme => ({
       width: drawerWidth,
       flexShrink: 0
     }
-  },
-  warning: {
-    width: '100%'
   }
 }))
+
+const useTitleStyles = makeStyles(theme => ({
+  title: {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    padding: 18
+  }
+}))
+
+function Title ({ children }) {
+  const classes = useTitleStyles()
+  return (
+    <div className={classes.title}>
+      <Typography variant="h6">
+        {children}
+      </Typography>
+    </div>
+  )
+}
 
 function Menu ({ application: { drawerOpen, schedule }, setDrawer, schedules, open }) {
   const classes = useStyle()
   const names = schedules.map(({ name, period }) => ({ primary: name, secondary: dateTimePeriod(period) }))
   return (
     <Drawer className={classes.drawer} mobileOpen={drawerOpen} onClose={() => setDrawer(!drawerOpen)}>
+      <Title>{ schedules.length ? 'Расписания' : 'Нет загруженных расписаний' }</Title>
       <List items={names} onClick={(schedule, index) => open(index)} selected={schedule} />
-      {schedules.length === 0 && <Typography className={classes.warning} align="center" variant="h6">Нет загруженных расписаний</Typography>}
     </Drawer>
   )
 }
