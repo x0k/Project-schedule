@@ -1,0 +1,1 @@
+export const ADD_SCHEDULE = 'ADD_SCHEDULE'
