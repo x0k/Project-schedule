@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-// import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 
 import LinearProgress from '@material-ui/core/LinearProgress'
 
@@ -9,10 +9,14 @@ import { bindActionCreators } from 'redux'
 import { buildIterator, buildGenerator, grouper } from 'eventa'
 
 import { open, selectSchedule } from '../../store/application'
+import { GridList, GridListTile, Typography } from '@material-ui/core'
+import { dateTimePeriod } from '../../utils/dateTime'
 
-// const useStyles = makeStyles({
-
-// })
+const useStyles = makeStyles({
+  title: {
+    marginTop: 10
+  }
+})
 
 function build ({ period: { start, end }, constraints, rules }) {
   const startDate = new Date(start)
@@ -42,19 +46,29 @@ function Schedule ({ schedule, open, select, index, application: { schedule: sel
       }
       if (!calculated) {
         const groups = build(schedule)
-        const gps = [...groups]
-        console.log(gps)
-        setCalculated(gps)
+        setCalculated([...groups])
       }
     }
   })
+  const classes = useStyles()
   if (!calculated) {
     return <LinearProgress />
   }
+  const { fields } = schedule
   return (
-    <div>
-      {name}
-    </div>
+    calculated.map(({ period, value }) => (
+      <div>
+        <Typography variant="h6" className={classes.title}>{dateTimePeriod(period)}</Typography>
+        <GridList cellHeight={54} cols={2}>
+          {fields.map(field => (
+            <GridListTile>
+              <Typography color="textSecondary">{field}</Typography>
+              <Typography>{value[field]}</Typography>
+            </GridListTile>
+          ))}
+        </GridList>
+      </div>
+    ))
   )
 }
 

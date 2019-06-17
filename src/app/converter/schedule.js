@@ -34,7 +34,7 @@ const CALCULATED = 'calculated'
 function getActions (type, schedule, onConvert, addSchedule, schedules) {
   switch (type) {
     case SCHEDULE:
-      return [ <Button onClick={() => onConvert(convert(schedule))} key="convertAction" >Конвертировать</Button> ]
+      return [ <Button onClick={() => onConvert({ ...convert(schedule), fields: schedule.fields })} key="convertAction" >Конвертировать</Button> ]
     case CALCULATED:
       return [
         <Button onClick={() => addSchedule(schedule)} key="addAction" disabled={schedule.name in schedules}>Добавить</Button>,
