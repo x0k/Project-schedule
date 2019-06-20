@@ -6,11 +6,11 @@ import LinearProgress from '@material-ui/core/LinearProgress'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { buildIterator, buildGenerator, grouper } from 'eventa'
-
 import { open, selectSchedule } from '../../store/application'
 import { GridList, GridListTile, Typography } from '@material-ui/core'
 import { dateTimePeriod } from '../../utils/dateTime'
+
+import calculate from '../../workers/calculate'
 
 const useStyles = makeStyles({
   title: {
@@ -18,36 +18,14 @@ const useStyles = makeStyles({
   }
 })
 
-function build ({ period: { start, end }, constraints, rules }) {
-  const startDate = new Date(start)
-  const endDate = new Date(end)
-  const keys = rules.map(({ id }) => id)
-
-  const iterator = buildIterator(startDate, endDate, constraints)
-
-  const gen = buildGenerator(rules, iterator, item => keys.every(key => item[key]))
-
-  const separator = (step) => ({ value, period: { end } }, current) =>
-    keys.every(key => value[key] === current[key]) && (end + step === current.milliseconds)
-
-  return grouper(gen, constraints, separator)
-}
-
-function Schedule ({ schedule, open, select, index, application: { schedule: selected } }) {
+function Schedule ({ schedule, open }) {
   const [calculated, setCalculated] = useState(null)
   useEffect(() => {
     if (!schedule) {
-      select(-1)
       open('/')
-    } else {
-      const idx = Number(index)
-      if (selected !== idx) {
-        select(idx)
-      }
-      if (!calculated) {
-        const groups = build(schedule)
-        setCalculated([...groups])
-      }
+    } else if (!calculated) {
+      calculate(schedule)
+        .then(setCalculated)
     }
   })
   const classes = useStyles()

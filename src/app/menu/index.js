@@ -10,8 +10,7 @@ import Drawer from '../../components/drawer'
 
 import List from '../../components/list'
 
-import { setDrawer } from '../../store/application'
-import { openSchedule } from '../../store/schedules'
+import { setDrawer, openSchedule } from '../../store/application'
 
 import { drawerWidth } from '../../constants'
 
