@@ -11,7 +11,6 @@ import { store, history } from './store'
 
 import App from './app'
 
-import Changelog from './app/changelog'
 import Converter from './app/converter'
 import Schedule from './app/schedule'
 
@@ -19,9 +18,8 @@ ReactDOM.render(
   <Provider store={store}>
     <App>
       <ConnectedRouter history={history}>
-        <Route exact path="/" component={Changelog} />
-        <Route exact path="/converter" component={Converter} />
-        <Route path="/schedule/:schedule" component={Schedule} />
+        <Route exact path="/" component={Converter} />
+        <Route path="/schedule" component={Schedule} />
       </ConnectedRouter>
     </App>
   </Provider>,

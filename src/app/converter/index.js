@@ -7,6 +7,8 @@ import ScheduleCard from './schedule'
 
 import { readFile, upload } from '../../utils/files'
 
+import demoSchedule from '../../assets/schedule.json'
+
 function read ({ path: [{ files: [ file ] }] }) {
   return readFile(file)
 }
@@ -30,9 +32,11 @@ export default function Converter () {
     .then(read)
     .then(parse)
     .then(addSchedule)
+  const demoHandler = () => addSchedule(demoSchedule)
   return (
     <div>
       <div className={classes.line}>
+        <Button onClick={demoHandler}>Демонстрационное расписание</Button>
         <Button onClick={clickHandler}>Загрузить расписание</Button>
       </div>
       {schedules.map((schedule, index) => (

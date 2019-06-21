@@ -1,11 +1,9 @@
+import { buildWorker } from '../../utils'
+
 import Worker from './calc.worker.js'
 
-const worker = new Worker()
+const worker = buildWorker(Worker)
 
 export default function calculate (schedule) {
-  return new Promise((resolve, reject) => {
-    worker.postMessage(schedule)
-    worker.onmessage = ({ data }) => resolve(data)
-    worker.onerror = reject
-  })
+  return worker(schedule)
 }

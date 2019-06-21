@@ -1,6 +1,5 @@
 export const PATHS_DICTIONARY = {
-  '/': 'Главная',
-  '/converter': 'Конвертор'
+  '/': 'Главная'
 }
 
 export default Object.keys(PATHS_DICTIONARY)

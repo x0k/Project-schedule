@@ -1,64 +1,34 @@
-import React, { useEffect, useState } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
+import React, { useEffect } from 'react'
 
-import LinearProgress from '@material-ui/core/LinearProgress'
-
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
-import { open, selectSchedule } from '../../store/application'
-import { GridList, GridListTile, Typography } from '@material-ui/core'
-import { dateTimePeriod } from '../../utils/dateTime'
+import { open } from '../../store/application'
 
-import calculate from '../../workers/calculate'
+import Schedule from './schedule'
 
-const useStyles = makeStyles({
-  title: {
-    marginTop: 10
-  }
-})
-
-function Schedule ({ schedule, open }) {
-  const [calculated, setCalculated] = useState(null)
+function ScheduleWrapper ({ schedule, open }) {
   useEffect(() => {
     if (!schedule) {
       open('/')
-    } else if (!calculated) {
-      calculate(schedule)
-        .then(setCalculated)
     }
   })
-  const classes = useStyles()
-  if (!calculated) {
-    return <LinearProgress />
+  if (!schedule) {
+    return null
   }
-  const { fields } = schedule
   return (
-    calculated.map(({ period, value }) => (
-      <div>
-        <Typography variant="h6" className={classes.title}>{dateTimePeriod(period)}</Typography>
-        <GridList cellHeight={54} cols={2}>
-          {fields.map(field => (
-            <GridListTile>
-              <Typography color="textSecondary">{field}</Typography>
-              <Typography>{value[field]}</Typography>
-            </GridListTile>
-          ))}
-        </GridList>
-      </div>
-    ))
+    <Schedule schedule={schedule} />
   )
 }
 
-function mapStateToProps ({ schedules, application }, { match: { params: { schedule } } }) {
-  return { schedule: schedules[schedule], index: schedule, application }
+function mapStateToProps ({ schedules, application: { schedule: index } }) {
+  return { schedule: schedules[index] }
 }
 
 function mapDispatchToProps (dispatch) {
   return {
-    open: bindActionCreators(open, dispatch),
-    select: bindActionCreators(selectSchedule, dispatch)
+    open: bindActionCreators(open, dispatch)
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Schedule)
+export default connect(mapStateToProps, mapDispatchToProps)(ScheduleWrapper)
