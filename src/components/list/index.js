@@ -12,8 +12,7 @@ export default function SimpleList ({ className, items, onClick, selected }) {
           selected={i === selected}
           onClick={() => onClick(props, i)}
           key={i} />
-      )
-      )}
+      ))}
     </List>
   )
 }

@@ -1,6 +1,6 @@
 {
   "name": "project-schedule",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "dependencies": {
     "@babel/core": "7.1.0",
@@ -86,7 +86,8 @@
     "eslint-plugin-react": "^7.13.0",
     "eslint-plugin-react-hooks": "^1.6.0",
     "eslint-plugin-standard": "^4.0.0",
-    "gh-pages": "^2.0.1"
+    "gh-pages": "^2.0.1",
+    "serve": "^11.0.2"
   },
   "jest": {
     "collectCoverageFrom": [

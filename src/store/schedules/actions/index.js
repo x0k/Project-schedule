@@ -1,5 +1,5 @@
-import { createAction } from '../../../utils/store'
+export { default as addSchedule } from './addSchedule'
 
-import { ADD_SCHEDULE } from '../constants'
+export { default as loadSchedules } from './loadSchedules'
 
-export const addSchedule = createAction(ADD_SCHEDULE)
+export { default as delSchedule } from './deleteSchedule'

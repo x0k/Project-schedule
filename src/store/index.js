@@ -1,5 +1,5 @@
 import { createBrowserHistory } from 'history'
-import { applyMiddleware, compose, createStore, combineReducers } from 'redux'
+import { applyMiddleware, createStore, combineReducers } from 'redux'
 import { routerMiddleware, connectRouter } from 'connected-react-router'
 import { createLogger } from 'redux-logger'
 
@@ -30,11 +30,9 @@ const reducer = combineReducers({
 export const store = createStore(
   reducer,
   initialState,
-  compose(
-    applyMiddleware(
-      generator,
-      routerMiddleware(history),
-      loggerMiddleware
-    )
+  applyMiddleware(
+    generator,
+    routerMiddleware(history),
+    loggerMiddleware
   )
 )
