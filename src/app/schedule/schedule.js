@@ -34,42 +34,48 @@ export default function Schedule ({ schedule }) {
   const [partition, setPartition] = useState(DAY)
   const [start, setStart] = useState(period.start)
   const [end, setEnd] = useState(period.end)
-  const [groups, setGroups] = useState(null)
+  const [groups, setGroups] = useState([])
+  const [regroup, setRegroup] = useState(true)
   const classes = useStyles()
+  const startRegroup = () => setRegroup(true)
+  const endRegroup = () => setRegroup(false)
+  const updateGroups = compose(setGroups, endRegroup)
+  const [ selectHandler, startHandler, endHandler ] = [setPartition, setStart, setEnd]
+    .map(handler => compose(handler, startRegroup))
   useEffect(() => {
     if (!calculated) {
       calculate(schedule)
         .then(setCalculated)
-    } else if (!groups) {
+    } else if (regroup) {
       const events = calculated.filter(({ period }) => start <= period.start && period.end < end)
       group(partition, events)
-        .then(setGroups)
+        .then(updateGroups)
     }
   })
   const builder = buildElementBuilder(element)
-  const clearGroups = () => setGroups(null)
-  const [ selectHandler, startHandler, endHandler ] = [setPartition, setStart, setEnd]
-    .map(handler => compose(handler, clearGroups))
   return (
-    <div className={classes.root}>
-      <ControlPanel
-        partition={partition}
-        onSelectPartition={selectHandler}
-        end={end}
-        start={start}
-        onStartChange={startHandler}
-        onEndChange={endHandler}
-        partitions={PARTITIONS_DICTIONARY}
-      />
-      {groups ? groups.map(({ start, items }) => (
-        <Group
-          key={start}
-          start={start}
-          builder={builder}
+    <div>
+      <LinearProgress style={{ opacity: regroup ? 1 : 0 }}/>
+      <div className={classes.root}>
+        <ControlPanel
           partition={partition}
-          items={items}
+          onSelectPartition={selectHandler}
+          end={end}
+          start={start}
+          onStartChange={startHandler}
+          onEndChange={endHandler}
+          partitions={PARTITIONS_DICTIONARY}
         />
-      )) : <LinearProgress />}
+        {groups.map(({ start, items }) => (
+          <Group
+            key={start}
+            start={start}
+            builder={builder}
+            partition={partition}
+            items={items}
+          />
+        ))}
+      </div>
     </div>
   )
 }

@@ -38,7 +38,7 @@ function getActions (type, schedule, onConvert, addSchedule, schedules) {
       return [ <Button onClick={() => onConvert({ ...convert(schedule), fields, element })} key="convertAction" >Конвертировать</Button> ]
     case CALCULATED:
       return [
-        <Button onClick={() => addSchedule(schedule)} key="addAction" disabled={schedule.name in schedules}>Добавить</Button>,
+        <Button onClick={() => addSchedule(schedule)} key="addAction" disabled={schedules.some(({ name }) => name === schedule.name)}>Добавить</Button>,
         <Button onClick={() => download(`${schedule.name}_converted.json`, schedule)} key="downloadAction" >Скачать</Button>
       ]
   }
