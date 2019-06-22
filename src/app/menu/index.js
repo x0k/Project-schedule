@@ -1,7 +1,8 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { Typography } from '@material-ui/core'
+import { Typography, IconButton } from '@material-ui/core'
+import DeleteIcon from '@material-ui/icons/Delete'
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -11,10 +12,13 @@ import Drawer from '../../components/drawer'
 import List from '../../components/list'
 
 import { setDrawer, openSchedule } from '../../store/application'
+import { loadSchedules, delSchedule } from '../../store/schedules'
 
 import { drawerWidth } from '../../constants'
 
 import { dateTimePeriod } from '../../utils/dateTime'
+
+import { useLoad } from '../hooks'
 
 const useStyle = makeStyles(theme => ({
   drawer: {
@@ -45,9 +49,15 @@ function Title ({ children }) {
   )
 }
 
-function Menu ({ application: { drawerOpen, schedule }, setDrawer, schedules, open }) {
+function Menu ({ application: { drawerOpen, schedule }, setDrawer, schedules, open, loadSchedules, delSchedule }) {
   const classes = useStyle()
-  const names = schedules.map(({ name, period }) => ({ primary: name, secondary: dateTimePeriod(period) }))
+  useLoad(loadSchedules)
+  const action = (index) => (
+    <IconButton edge="end" aria-label="Delete" onClick={() => delSchedule(schedules[index])}>
+      <DeleteIcon />
+    </IconButton>
+  )
+  const names = schedules.map(({ name, period }, i) => ({ primary: name, secondary: dateTimePeriod(period), action: schedule === i && action(i) }))
   return (
     <Drawer className={classes.drawer} mobileOpen={drawerOpen} onClose={() => setDrawer(!drawerOpen)}>
       <Title>{ schedules.length ? 'Расписания' : 'Нет загруженных расписаний' }</Title>
@@ -63,7 +73,9 @@ function mapStateToProps (store) {
 function mapDispatchToProps (dispatch) {
   return {
     setDrawer: bindActionCreators(setDrawer, dispatch),
-    open: bindActionCreators(openSchedule, dispatch)
+    open: bindActionCreators(openSchedule, dispatch),
+    loadSchedules: bindActionCreators(loadSchedules, dispatch),
+    delSchedule: bindActionCreators(delSchedule, dispatch)
   }
 }
 
