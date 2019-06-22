@@ -9076,7 +9076,12 @@ rsvp@^3.3.3:
   resolved "https://registry.yarnpkg.com/rsvp/-/rsvp-3.6.2.tgz#2e96491599a96cde1b515d5674a8f7a91452926a"
   integrity sha512-OfWGQTb9vnwRjwtA2QwpG2ICclHC3pgXZO5xt8H2EfgDquO0qVdSb5T88L4qJVAEugbS56pAuV4XZM58UX8ulw==
 
-rule-interpreter@^0.5.4, rule-interpreter@~0.5:
+rule-interpreter@^0.5.4:
+  version "0.5.5"
+  resolved "https://registry.yarnpkg.com/rule-interpreter/-/rule-interpreter-0.5.5.tgz#0724602d0bec68234512b39edfcd2701e1914c1e"
+  integrity sha512-fUO5Ha8SfbLX66D2tfqza0+sd+hdMmKizG9KrcRTMMUUW2j+ZUpQW5J/QA6+4tzn5Xqya8CClDmHDCE3wP1TOQ==
+
+rule-interpreter@~0.5:
   version "0.5.4"
   resolved "https://registry.yarnpkg.com/rule-interpreter/-/rule-interpreter-0.5.4.tgz#39f7deed8929b45b80b40d34512bcfd4c6f6d8ee"
   integrity sha512-d0pVrWjayjUPuzfQk6KQ10oWrouiSciMEzj6OrKsU4SdITH61xHaFEXg7Tw34xj3xee/XF+/5+yTrGc2KAElYQ==

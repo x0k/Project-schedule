@@ -41,7 +41,7 @@ export default function Group ({
             <ul className={classes.ul} key={itemId}>
               <ListSubheader>{periodToString(partition, period)}</ListSubheader>
               <ListItem key={`item-${itemId}`}>
-                <Typography variant="body1">{builder(value)}</Typography>
+                {builder(value)}
               </ListItem>
             </ul>
           ))}

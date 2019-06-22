@@ -1,8 +1,3 @@
-import calculate from './calculate'
+export { default as calculate } from './calculate'
 
-import group from './group'
-
-export {
-  calculate,
-  group
-}
+export { default as group } from './group'
