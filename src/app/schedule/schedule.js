@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import LinearProgress from '@material-ui/core/LinearProgress'
 
-import { makeStyles } from '@material-ui/core'
+import { makeStyles, Box } from '@material-ui/core'
 
 import { buildElementBuilder } from '../../utils/elementBuilder'
 
@@ -57,15 +57,17 @@ export default function Schedule ({ schedule }) {
     <div>
       <LinearProgress style={{ opacity: regroup ? 1 : 0 }}/>
       <div className={classes.root}>
-        <ControlPanel
-          partition={partition}
-          onSelectPartition={selectHandler}
-          end={end}
-          start={start}
-          onStartChange={startHandler}
-          onEndChange={endHandler}
-          partitions={PARTITIONS_DICTIONARY}
-        />
+        <Box display={{ xs: 'none', sm: 'block' }}>
+          <ControlPanel
+            partition={partition}
+            onSelectPartition={selectHandler}
+            end={end}
+            start={start}
+            onStartChange={startHandler}
+            onEndChange={endHandler}
+            partitions={PARTITIONS_DICTIONARY}
+          />
+        </Box>
         {groups.map(({ start, items }) => (
           <Group
             key={start}
