@@ -22,7 +22,7 @@ import { useLoad } from '../hooks'
 
 const useStyle = makeStyles(theme => ({
   drawer: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       width: drawerWidth,
       flexShrink: 0
     }

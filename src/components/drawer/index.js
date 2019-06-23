@@ -16,7 +16,7 @@ export default function ResponsiveDrawer ({ className, children, mobileOpen, onC
   const paper = { paper: classes.drawerPaper }
   return (
     <nav className={className}>
-      <Hidden smUp implementation="css">
+      <Hidden mdUp implementation="css">
         <Drawer
           variant="temporary"
           anchor="left"
@@ -28,7 +28,7 @@ export default function ResponsiveDrawer ({ className, children, mobileOpen, onC
           {children}
         </Drawer>
       </Hidden>
-      <Hidden xsDown implementation="css">
+      <Hidden smDown implementation="css">
         <Drawer
           classes={paper}
           variant="permanent"

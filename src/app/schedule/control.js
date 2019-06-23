@@ -18,9 +18,8 @@ const useStyles = makeStyles({
     display: 'flex'
   },
   textField: {
-    marginLeft: 8,
-    marginRight: 8,
-    width: 160
+    margin: '0 8px',
+    width: 142
   },
   groupBy: {
     marginLeft: 'auto'
