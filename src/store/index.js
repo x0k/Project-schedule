@@ -9,7 +9,9 @@ import application from './application'
 
 import schedules from './schedules'
 
-export const history = createBrowserHistory()
+export const history = createBrowserHistory({
+  basename: process.env.PUBLIC_URL
+})
 
 const loggerMiddleware = createLogger()
 
@@ -27,12 +29,14 @@ const reducer = combineReducers({
   router: connectRouter(history)
 })
 
+const middleware = [generator, routerMiddleware(history)]
+
+if (process.env.NODE_ENV === 'development') {
+  middleware.push(loggerMiddleware)
+}
+
 export const store = createStore(
   reducer,
   initialState,
-  applyMiddleware(
-    generator,
-    routerMiddleware(history),
-    loggerMiddleware
-  )
+  applyMiddleware(...middleware)
 )
