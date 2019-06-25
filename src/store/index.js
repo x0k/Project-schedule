@@ -9,7 +9,9 @@ import application from './application'
 
 import schedules from './schedules'
 
-export const history = createBrowserHistory()
+export const history = createBrowserHistory({
+  basename: process.env.PUBLIC_URL
+})
 
 const loggerMiddleware = createLogger()
 

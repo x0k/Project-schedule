@@ -64,7 +64,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
-    "predeploy": "npm run build",
+    "predeploy": "PUBLIC_URL=/project-schedule/ npm run build",
     "deploy": "gh-pages -d build"
   },
   "browserslist": [
