@@ -27,12 +27,14 @@ const reducer = combineReducers({
   router: connectRouter(history)
 })
 
+const middleware = [generator, routerMiddleware(history)]
+
+if (process.env.NODE_ENV === 'development') {
+  middleware.push(loggerMiddleware)
+}
+
 export const store = createStore(
   reducer,
   initialState,
-  applyMiddleware(
-    generator,
-    routerMiddleware(history),
-    loggerMiddleware
-  )
+  applyMiddleware(...middleware)
 )
